@@ -22,8 +22,12 @@ export default API;//ab tum isko dusri files me use kar sakte ho*/
 import axios from "axios";
 
 // backend base URL
+// const API = axios.create({
+//   baseURL: "http://localhost:5000/api",
+// });
+
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://inventory-and-billing-system-backend.onrender.com/api",
 });
 
 // automatic token add karega(automatically send token with every request)
