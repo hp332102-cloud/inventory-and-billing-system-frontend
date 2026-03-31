@@ -50,7 +50,7 @@ const MonthlySalesReport = () => {
   //   );
   // };
 
-  const downloadPDF = async () => {
+  /*const downloadPDF = async () => {
     const res = await API.get(
       `/invoices/reports/monthly/pdf?startDate=${startDate}&endDate=${endDate}`
     );
@@ -61,6 +61,23 @@ const MonthlySalesReport = () => {
     window.open(
       `${backendUrl}${res.data.file}`
     );
+  };*/
+
+  const downloadPDF = async () => {
+    try {
+        const res = await API.get(
+            `/invoices/reports/monthly/pdf?startDate=${startDate}&endDate=${endDate}`
+        );
+        
+        // Yeh line ensure karegi ki:
+        // 1. Agar .env mein URL hai toh wo use karein.
+        // 2. Agar .env nahi mil raha, toh fallback "http://localhost:5000" par jayein.
+        const backendUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+        
+        window.open(`${backendUrl}${res.data.file}`);
+    } catch (error) {
+        console.error("PDF Download failed:", error);
+    }
   };
 
 
