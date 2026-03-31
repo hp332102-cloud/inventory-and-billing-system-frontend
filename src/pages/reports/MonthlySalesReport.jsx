@@ -41,12 +41,25 @@ const MonthlySalesReport = () => {
   };
   
 
+  // const downloadPDF = async () => {
+  //   const res = await API.get(
+  //     `/invoices/reports/monthly/pdf?startDate=${startDate}&endDate=${endDate}`
+  //   );
+  //   window.open(
+  //     `http://localhost:5000${res.data.file}`
+  //   );
+  // };
+
   const downloadPDF = async () => {
     const res = await API.get(
       `/invoices/reports/monthly/pdf?startDate=${startDate}&endDate=${endDate}`
     );
+    
+    // Yahan localhost ki jagah VITE_API_URL use karein
+    const backendUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+    
     window.open(
-      `http://localhost:5000${res.data.file}`
+      `${backendUrl}${res.data.file}`
     );
   };
 
