@@ -176,7 +176,8 @@ const Products = () => {
     setStock(product.stock);
     setLowStockThreshold(product.lowStockThreshold || 10);
     setGstRate(product.gstRate || 0);
-    setDiscountPercentage(product.discountPercentage || 0)
+    setDiscountPercentage(product.discountPercentage || 0);
+    setDiscountType(product.discountType || "percentage");
     setHsnCode(product.hsnCode || "");
     formRef.current?.scrollIntoView({ behavior: "smooth"});
 

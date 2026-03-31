@@ -27,7 +27,7 @@ import axios from "axios";
 // });
 
 const API = axios.create({
-  baseURL: "https://inventory-and-billing-system-backend.onrender.com/api",
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
 });
 
 // automatic token add karega(automatically send token with every request)
