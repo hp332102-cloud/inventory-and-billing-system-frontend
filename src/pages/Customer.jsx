@@ -91,9 +91,9 @@ const Customers = () => {
       clearForm();
       getCustomers();
 
-    } catch {
+    } catch (error) {
 
-      alert("Error adding customer");
+      alert(error.response?.data?.msg || "Error adding customer");
 
     }
 
@@ -165,9 +165,9 @@ const Customers = () => {
       clearForm();
       getCustomers();
 
-    } catch {
+    } catch (error) {
 
-      alert("Error updating customer");
+      alert(error.response?.data?.msg || "Error updating customer");
 
     }
 
