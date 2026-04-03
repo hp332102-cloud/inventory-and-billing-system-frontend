@@ -1,559 +1,286 @@
-# Inventory & Billing System
+# Inventory & Billing System - Frontend
 ### Complete Project Documentation
 
 ---
 
 ## Table of Contents
 
-1. [Project Abstract & Objective](#1-project-abstract--objective)
-2. [ER Diagram & Database Schema](#2-er-diagram--database-schema)
-3. [API Documentation](#3-api-documentation)
-4. [System Screenshots & Explanation](#4-system-screenshots--explanation)
-5. [Technology Stack](#5-technology-stack)
-6. [System Architecture](#6-system-architecture)
-7. [Key Features](#7-key-features)
-8. [Viva Questions & Answers](#8-viva-questions--answers)
-9. [Presentation Script](#9-presentation-script)
-
-
+1. [Project Overview](#1-project-overview)
+2. [Tech Stack](#2-tech-stack)
+3. [Frontend Architecture](#3-frontend-architecture)
+4. [Pages & Components](#4-pages--components)
+5. [API Integration](#5-api-integration)
+6. [Features](#6-features)
+7. [Setup & Installation](#7-setup--installation)
 
 ---
 
-## 1. Project Abstract & Objective
+## 1. Project Overview
 
-### Abstract
-
-The **Inventory & Billing System** is a comprehensive web-based application designed to streamline inventory management and billing operations for businesses. Built with modern web technologies, this system provides a complete solution for managing products, customers, invoices, and GST calculations with real-time reporting capabilities.
-
-### Main Objective
-
-The primary objective of this system is to automate and digitize the entire inventory and billing process, reducing manual errors, improving efficiency, and providing business owners with accurate financial insights through comprehensive reporting and analytics.
-
-### Problem Statement
-
-Traditional inventory and billing systems rely heavily on manual processes, leading to:
-
-* Errors in tax and discount calculations
-* Difficulty in tracking real-time stock levels
-* Challenges in generating accurate, GST-compliant invoices
-* Lack of centralized reporting and analytics
-
-### Proposed Solution
-
-This system provides an automated, GST-compliant solution featuring:
-
-* Real-time inventory tracking
-* Dynamic discount calculations (item-level and bill-level)
-* Automatic PDF invoice generation
-* Comprehensive reporting and analytics
-* A clean, user-friendly web interface accessible to non-technical staff
+The **Inventory & Billing System** frontend is a React.js-based web application that provides a clean, user-friendly interface for managing inventory and generating GST-compliant invoices.
 
 ---
 
-## 2. ER Diagram & Database Schema
+## 2. Tech Stack
 
-### Entity Relationship Diagram
+| Technology | Purpose |
+|---|---|
+| React.js | UI framework |
+| React Router | Client-side routing |
+| Tailwind CSS | Styling |
+| Chart.js | Data visualization |
+| Axios | HTTP client for API calls |
+| Vercel | Deployment |
+
+---
+
+## 3. Frontend Architecture
 
 ```
-┌─────────────────────┐        ┌──────────────────────┐        ┌──────────────────────┐
-│       Product        │        │       Customer        │        │       Invoice         │
-├─────────────────────┤        ├──────────────────────┤        ├──────────────────────┤
-│ _id                 │        │ _id                  │        │ _id                  │
-│ name                │        │ name                 │        │ invoiceNumber        │
-│ hsnCode             │        │ mobile               │        │ customerName         │
-│ price               │        │ email                │        │ customerEmail        │
-│ stock               │        │ state                │        │ items                │
-│ category            │        │ gstNumber            │        │ totalAmount          │
-│ gstRate             │        │ address              │        │ status               │
-│ discountType        │        └──────────────────────┘        │ paymentStatus        │
-│ discountPercent     │                   │                     │ isInterState         │
-│ lowStockThreshold   │               1 ──┤                     │ createdBy            │
-└─────────────────────┘                   │                     │ createdAt            │
-           │                              ▼                     └──────────────────────┘
-       1 ──┤                   ┌──────────────────────┐                    │
-           ▼                   │     InvoiceItem       │              1 ───┤
-┌─────────────────────┐        ├──────────────────────┤                   ▼
-│        User          │        │ _id                  │        ┌──────────────────────┐
-├─────────────────────┤        │ invoiceId            │        │       Setting         │
-│ _id                 │        │ productId            │        ├──────────────────────┤
-│ name                │        │ quantity             │        │ _id                  │
-│ email               │        │ price                │        │ storeName            │
-│ mobile              │        │ discountAmount       │        │ gstNumber            │
-│ password            │        │ taxableValue         │        │ address              │
-│ role                │        │ gstAmount            │        │ phone                │
-│ isActive            │        │ total                │        │ email                │
-└─────────────────────┘        └──────────────────────┘        │ cgstPercent          │
-                                                                │ sgstPercent          │
-                                                                │ state                │
-                                                                └──────────────────────┘
+src/
+├── api/
+│   └── axios.js          # Axios configuration & interceptors
+├── components/
+│   ├── dashboard/
+│   │   ├── SalesChart.jsx
+│   │   ├── GstChart.jsx
+│   │   ├── LowStockTable.jsx
+│   │   └── RecentInvoices.jsx
+│   ├── layout/
+│   │   ├── Sidebar.jsx
+│   │   ├── Navbar.jsx
+│   │   └── Layout.jsx
+│   └── Model.jsx        # Reusable modal component
+├── pages/
+│   ├── Login.jsx
+│   ├── Dashboard.jsx
+│   ├── Products.jsx
+│   ├── Customers.jsx
+│   ├── Invoice.jsx
+│   ├── InvoiceList.jsx
+│   └── Reports.jsx
+├── context/
+│   └── AuthContext.jsx  # Auth state management
+├── App.jsx              # Main app with routing
+└── main.jsx             # Entry point
 ```
 
-### Schema Descriptions
+---
 
-#### Product Entity
-Stores all product information including name, HSN code, price, stock levels, category, GST rate, and discount details. Each product supports multiple discount types — percentage-based or flat amount.
+## 4. Pages & Components
 
-| Field | Type | Description |
+### Pages
+
+| Page | Route | Description | Access |
+|---|---|---|---|
+| Login | `/login` | User login | Public |
+| Dashboard | `/` | Overview with KPIs | Admin/Cashier |
+| Products | `/products` | Product management | Admin/Cashier |
+| Customers | `/customers` | Customer management | Admin/Cashier |
+| Create Invoice | `/invoice` | Generate new invoice | Admin/Cashier |
+| Invoice List | `/invoices` | View all invoices | Admin/Cashier |
+| Reports | `/reports` | Sales & GST reports | Admin |
+
+### Key Components
+
+- **Sidebar** - Navigation menu with role-based visibility
+- **SalesChart** - Monthly sales trend visualization (Chart.js)
+- **GstChart** - GST breakdown (CGST/SGST/IGST) pie chart
+- **LowStockTable** - Products below threshold alert
+- **RecentInvoices** - Latest invoice history
+- **Model** - Reusable modal for forms
+
+---
+
+## 5. API Integration
+
+### Base URL
+```
+Development: http://localhost:5000/api
+Production: Your deployed backend URL
+```
+
+### Authentication
+- JWT token stored in localStorage
+- Axios interceptor adds token to every request
+- Auto-logout on token expiration
+
+### API Endpoints Used
+
+| Method | Endpoint | Purpose |
 |---|---|---|
-| `_id` | ObjectId | Unique product identifier |
-| `name` | String | Product name |
-| `hsnCode` | String | HSN code for GST classification |
-| `price` | Number | Base selling price |
-| `stock` | Number | Current stock quantity |
-| `category` | String | Product category |
-| `gstRate` | Number | Applicable GST rate (%) |
-| `discountType` | String | `percentage` or `flat` |
-| `discountPercent` | Number | Discount value |
-| `lowStockThreshold` | Number | Trigger level for low stock alert |
-
-#### Customer Entity
-Maintains customer records with contact details, GST number, and state information for accurate GST determination (CGST/SGST for intra-state, IGST for inter-state).
-
-| Field | Type | Description |
-|---|---|---|
-| `_id` | ObjectId | Unique customer identifier |
-| `name` | String | Customer full name |
-| `mobile` | String | Mobile number |
-| `email` | String | Email address |
-| `state` | String | State for GST type determination |
-| `gstNumber` | String | Customer's GSTIN |
-| `address` | String | Billing address |
-
-#### Invoice Entity
-The central entity that stores complete invoice details, including customer info, itemized breakdown, GST summary, and payment status.
-
-| Field | Type | Description |
-|---|---|---|
-| `_id` | ObjectId | Unique invoice identifier |
-| `invoiceNumber` | String | Auto-generated invoice number (e.g., INV-0001) |
-| `customerName` | String | Snapshot of customer name |
-| `customerEmail` | String | Snapshot of customer email |
-| `items` | Array | Array of InvoiceItem references |
-| `totalAmount` | Number | Final payable amount |
-| `status` | String | `active` or `cancelled` |
-| `paymentStatus` | String | Payment state |
-| `isInterState` | Boolean | Determines CGST/SGST vs IGST |
-| `createdBy` | ObjectId | User who created the invoice |
-| `createdAt` | Date | Invoice creation timestamp |
-
-#### InvoiceItem Entity
-Stores individual line items within an invoice, capturing product details, quantities, prices, discounts, and GST calculations at the time of billing.
-
-| Field | Type | Description |
-|---|---|---|
-| `invoiceId` | ObjectId | Parent invoice reference |
-| `productId` | ObjectId | Product reference |
-| `quantity` | Number | Quantity billed |
-| `price` | Number | Unit price at time of billing |
-| `discountAmount` | Number | Discount applied |
-| `taxableValue` | Number | Value after discount, before GST |
-| `gstAmount` | Number | Total GST charged |
-| `total` | Number | Final line total |
-
-#### User Entity
-Manages system users with authentication, role-based access control, and activity tracking.
-
-| Field | Type | Description |
-|---|---|---|
-| `name` | String | User's full name |
-| `email` | String | Login email |
-| `mobile` | String | Mobile number |
-| `password` | String | Bcrypt-hashed password |
-| `role` | String | `admin` or `cashier` |
-| `isActive` | Boolean | Account active status |
-
-#### Setting Entity
-Stores business-level configuration including store name, GST number, tax percentages, and address details.
+| POST | /users/login | User authentication |
+| GET | /products | Fetch products |
+| POST | /products | Add product (Admin) |
+| PUT | /products/:id | Update product (Admin) |
+| DELETE | /products/:id | Delete product (Admin) |
+| GET | /customers | Fetch customers |
+| POST | /customers/add | Add customer |
+| GET | /invoices | Fetch invoices |
+| POST | /invoices | Create invoice |
+| GET | /invoices/:id | Get invoice details |
+| GET | /invoices/invoice/:id/pdf | Download PDF |
+| GET | /dashboard | Dashboard data |
+| GET | /invoices/daily-report | Daily report (Admin) |
+| GET | /invoices/reports/monthly | Monthly report (Admin) |
 
 ---
 
-## 3. API Documentation
+## 6. Features
 
-> **Base URL:** `/api`  
-> **Authentication:** All protected routes require a Bearer JWT token in the `Authorization` header.
-
----
-
-### 3.1 Authentication APIs
-
-#### `POST /api/users/login`
-Authenticates a user and returns a JWT token.
-
-**Request Body:**
-```json
-{
-  "mobile": "9876543210",
-  "password": "password"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "token": "jwt_token",
-  "user": {
-    "id": "...",
-    "name": "John Doe",
-    "role": "admin"
-  }
-}
-```
-
----
-
-#### `POST /api/users/register`
-Registers a new user (admin only).
-
-**Request Body:**
-```json
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "mobile": "9876543210",
-  "password": "password",
-  "role": "cashier"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": "User created successfully",
-  "user": {
-    "id": "...",
-    "name": "John Doe",
-    "role": "cashier"
-  }
-}
-```
-
----
-
-### 3.2 Product Management APIs
-
-#### `GET /api/products`
-Fetches a paginated list of products with optional search and sorting.
-
-**Query Parameters:**
-
-| Parameter | Type | Description |
-|---|---|---|
-| `page` | Number | Page number (default: 1) |
-| `limit` | Number | Results per page (default: 5) |
-| `search` | String | Search by product name |
-| `sortBy` | String | Field to sort by |
-| `order` | String | `asc` or `desc` |
-
-**Response:**
-```json
-{
-  "success": true,
-  "pagination": { "currentPage": 1, "totalPages": 10 },
-  "products": [{ "id": "...", "name": "Product A", "price": 100, "stock": 50 }]
-}
-```
-
----
-
-#### `POST /api/products`
-Adds a new product.
-
-**Request Body:**
-```json
-{
-  "name": "Product A",
-  "hsnCode": "12345",
-  "price": 100,
-  "category": "Electronics",
-  "stock": 50,
-  "gstRate": 18,
-  "discountPercentage": 10,
-  "discountType": "percentage"
-}
-```
-
----
-
-#### `PUT /api/products/:id`
-Updates an existing product by ID.
-
-**Request Body:**
-```json
-{
-  "name": "Updated Product",
-  "price": 120,
-  "stock": 40
-}
-```
-
----
-
-#### `DELETE /api/products/:id`
-Deletes a product by ID.
-
-**Response:**
-```json
-{ "success": true, "message": "Product deleted successfully" }
-```
-
----
-
-### 3.3 Customer Management APIs
-
-#### `GET /api/customers`
-Fetches a paginated list of customers.
-
-**Query Parameters:** `page`, `limit`, `search`, `sortBy`, `order`
-
----
-
-#### `POST /api/customers/add`
-Adds a new customer.
-
-**Request Body:**
-```json
-{
-  "name": "John Doe",
-  "mobile": "9876543210",
-  "email": "john@example.com",
-  "address": "123 Main Street",
-  "gstNumber": "GST123456",
-  "state": "Gujarat"
-}
-```
-
----
-
-#### `GET /api/customers/:id`
-Fetches a single customer's details by ID.
-
----
-
-#### `PUT /api/customers/:id`
-Updates a customer record by ID.
-
----
-
-#### `DELETE /api/customers/:id`
-Deletes a customer by ID.
-
----
-
-### 3.4 Invoice Management APIs
-
-#### `POST /api/invoices`
-Creates a new GST-compliant invoice.
-
-**Request Body:**
-```json
-{
-  "customerId": "...",
-  "customerName": "John Doe",
-  "customerEmail": "john@example.com",
-  "items": [
-    { "product": "...", "quantity": 2, "discountPercent": 10 }
-  ],
-  "billDiscountValue": 5,
-  "billDiscountType": "percentage"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Invoice created successfully",
-  "data": { "id": "...", "invoiceNumber": "INV-0001", "totalAmount": 1000 }
-}
-```
-
----
-
-#### `GET /api/invoices`
-Fetches all invoices with pagination and search.
-
-**Query Parameters:** `page`, `limit`, `search`, `sortBy`, `order`
-
----
-
-#### `GET /api/invoices/:id`
-Fetches complete details of a single invoice including all line items.
-
----
-
-#### `PATCH /api/invoices/:id/cancel`
-Cancels an invoice. Stock is restored upon cancellation.
-
----
-
-#### `GET /api/invoices/daily-report`
-Generates a daily sales summary report.
-
-**Query Parameters:**
-
-| Parameter | Example | Description |
-|---|---|---|
-| `date` | `2026-04-01` | Date for the report |
-
-**Response:**
-```json
-{
-  "success": true,
-  "date": "2026-04-01",
-  "totalInvoices": 5,
-  "totalSales": 5000,
-  "data": [{ "invoiceNumber": "INV-0001", "totalAmount": 1000 }]
-}
-```
-
----
-
-### 3.5 Dashboard API
-
-#### `GET /api/dashboard`
-Returns aggregated business metrics, recent invoices, sales chart data, GST breakdown, and low stock alerts.
-
-**Response:**
-```json
-{
-  "success": true,
-  "dashboard": {
-    "totalInvoices": 100,
-    "totalProducts": 50,
-    "totalCustomers": 30,
-    "totalSales": 50000,
-    "cancelledInvoicesCount": 5
-  },
-  "recentInvoices": [...],
-  "salesChart": [{ "_id": "2026-03", "total": 15000 }],
-  "gstData": {
-    "totalCGST": 1000,
-    "totalSGST": 1000,
-    "totalIGST": 0
-  },
-  "lowStockProducts": [{ "name": "Product A", "stock": 2, "lowStockThreshold": 10 }]
-}
-```
-
----
-
-## 4. System Screenshots & Explanation
-
-### Dashboard Overview
-The main dashboard provides a comprehensive overview of business performance, featuring key metrics (total invoices, products, customers, and revenue), interactive sales trend charts, a GST breakdown panel, recent invoice history, and low stock alerts for proactive inventory management.
+### Dashboard
+- Total invoices, products, customers count
+- Total sales amount
+- Monthly sales chart (line graph)
+- GST breakdown chart (pie chart)
+- Recent invoices list
+- Low stock alerts
 
 ### Product Management
-The products page allows administrators to manage the full product catalogue with pagination, search, and column-based sorting. Users can add new products with all relevant details — including HSN codes, GST rates, and discount configuration — or update existing entries with real-time stock adjustments.
+- Paginated product list
+- Add new product with full details
+- Edit existing product
+- Delete product
+- Search by name
+- Sort by columns
+- Low stock threshold alerts
 
 ### Customer Management
-The customer management interface supports full CRUD operations on customer records. It includes GSTIN validation and state selection fields to ensure accurate tax type determination (CGST/SGST vs. IGST), along with a search bar for quick lookups.
+- Add/Edit/Delete customers
+- GSTIN validation
+- State selection for GST type
+- Search functionality
 
 ### Invoice Generation
-The invoice creation page offers a dynamic billing interface. Users select a customer, add products line by line, apply item-level discounts and a bill-level discount, and the system automatically computes the taxable value, GST split, and final total — all in real time.
+- Customer selection dropdown
+- Product selection with quantity
+- Item-level discount (percentage/flat)
+- Bill-level discount (percentage/flat)
+- Real-time GST calculation
+- Auto-generated invoice number
+- PDF download
 
-### Invoice List
-A searchable, paginated view of all generated invoices. Users can drill into individual invoice details, download them as PDFs, or cancel invoices when required, with instant status updates.
-
-### Reports Dashboard
-The reports section provides daily and monthly sales summaries, GST breakdowns by tax type, and the ability to generate PDF reports for official documentation and compliance filing.
-
----
-
-## 5. Technology Stack
-
-| Layer | Technology | Purpose |
-|---|---|---|
-| **Frontend** | React.js | Component-based UI framework |
-| **Styling** | Tailwind CSS | Utility-first responsive design |
-| **Charts** | Chart.js | Sales and GST data visualization |
-| **Routing** | React Router | Client-side navigation |
-| **HTTP Client** | Axios | API communication |
-| **Backend** | Node.js + Express.js | RESTful API server |
-| **Database** | MongoDB + Mongoose | Document-based data persistence |
-| **Authentication** | JWT (JSON Web Tokens) | Stateless user authentication |
-| **Password Hashing** | bcrypt | Secure credential storage |
-| **PDF Generation** | PDFKit | Invoice and report generation |
-| **Frontend Deploy** | Vercel | Static hosting with CDN |
-| **Backend Deploy** | Render | Node.js server hosting |
+### Reports
+- Daily sales summary
+- Monthly sales & GST report
+- PDF export for reports
 
 ---
 
-## 6. System Architecture
+## 7. Setup & Installation
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                      CLIENT LAYER                         │
-│         React.js · Tailwind CSS · Chart.js                │
-│         React Router · Axios HTTP Client                  │
-└───────────────────────────┬──────────────────────────────┘
-                            │ HTTPS / REST
-┌───────────────────────────▼──────────────────────────────┐
-│                       API LAYER                           │
-│         Express.js RESTful APIs                           │
-│         JWT Middleware · Role-based Access Control        │
-│         Input Validation & Sanitization                   │
-└───────────────────────────┬──────────────────────────────┘
-                            │
-         ┌──────────────────┴──────────────────┐
-         │                                     │
-┌────────▼────────┐                  ┌─────────▼─────────┐
-│  DATABASE LAYER │                  │   FILE STORAGE    │
-│  MongoDB Atlas  │                  │  PDFKit Output    │
-│  Mongoose ODM   │                  │  Invoice PDFs     │
-└─────────────────┘                  └───────────────────┘
+### Prerequisites
+- Node.js (v16+)
+- npm or yarn
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/hp332102-cloud/inventory-and-billing-system-frontend.git
+
+# Navigate to project
+cd inventory-and-billing-system-frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm start
 ```
 
-**Layer Responsibilities:**
+### Environment Variables
 
-* **Client Layer** — Handles all UI rendering, user interactions, and API communication. Implements responsive design for desktop and tablet usage.
-* **API Layer** — Exposes RESTful endpoints, enforces authentication, validates input, and orchestrates business logic including GST calculations.
-* **Database Layer** — Persists all application data with proper schema relationships and indexing for query performance.
-* **File Storage** — Manages dynamically generated PDF invoices and reports using PDFKit.
+Create `.env` file:
+```env
+REACT_APP_API_URL=http://localhost:5000/api
+```
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+### Deploy to Vercel
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy
+vercel
+```
 
 ---
 
-## 7. Key Features
+## Key Technical Details
 
-### Product Management
-* Add, edit, and delete products with complete details
-* HSN code support for GST classification
-* Configurable GST rates per product
-* Percentage and flat discount types
-* Real-time stock tracking with low-stock threshold alerts
+### Role-Based Access
 
-### Customer Management
-* Full CRUD operations for customer records
-* GSTIN validation
-* State-based GST type determination
-* Searchable customer directory
+| Role | Dashboard | Products | Customers | Invoices | Reports |
+|---|---|---|---|---|---|
+| Admin | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Cashier | ✓ | View | ✓ | ✓ | - |
 
-### Invoice Generation
-* Dynamic, real-time invoice builder
-* Item-level discount support (percentage or flat)
-* Bill-level discount support
-* Automatic CGST/SGST (intra-state) and IGST (inter-state) calculation
-* Auto-incremented invoice numbers (INV-0001, INV-0002, ...)
-* PDF invoice download
+### State Management
+- React Context API for authentication
+- Local state for UI components
+- Axios for server state
 
-### GST Compliance
-* Supports all standard GST slabs (0%, 5%, 12%, 18%, 28%)
-* Automatic intra-state vs. inter-state detection
-* CGST/SGST split for local transactions
-* IGST for cross-state transactions
-* GST-compliant PDF invoices
+### Form Handling
+- Controlled components
+- Real-time validation
+- Error handling
 
-### Reporting & Analytics
-* Real-time dashboard with KPIs
-* Monthly sales trend charts
-* GST collection breakdown (CGST / SGST / IGST)
-* Daily sales reports with PDF export
-* Low stock alerts
+### PDF Generation
+- Backend generates PDF using PDFKit
+- Frontend triggers download via blob response
 
-### Security & Access Control
-* JWT-based authentication
-* Role-based access: `admin` and `cashier` roles
-* Bcrypt password hashing
-* Protected API endpoints via middleware
+---
 
+## Troubleshooting
+
+### Common Issues
+
+1. **Login not working**
+   - Check backend is running
+   - Verify API URL in axios.js
+
+2. **PDF not downloading**
+   - Check popup blocker
+   - Verify backend PDF route
+
+3. **Stock not updating**
+   - Clear localStorage and re-login
+
+---
+
+## Project Structure (Summary)
+
+```
+inventory-and-billing-system-frontend/
+├── public/
+│   └── index.html
+├── src/
+│   ├── api/axios.js
+│   ├── components/
+│   ├── context/AuthContext.jsx
+│   ├── pages/
+│   ├── App.jsx
+│   ├── App.css
+│   └── index.js
+├── package.json
+└── README.md
+```
+
+---
+
+## Related Documentation
+
+- [Backend README](../backend/README.md) - API Documentation
+- [Database Schema](./SCHEMA.md) - MongoDB Schemas
+
+---
+
+Made with React.js + Tailwind CSS
