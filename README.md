@@ -396,8 +396,13 @@ Inventory-and-Billing-System/
 
 ## Related Documentation
 
+**Local View:**
 - [Backend README](../backend/README.md) - Full API Documentation & Database Schema
 - [ER Diagram & Schema](../backend/README.md#7-er-diagram--database-schema) - Database Design Details
+
+**GitHub View:**
+- [Backend README](https://github.com/hp332102-cloud/Inventory-and-Billing-System/blob/main/backend/README.md) - Full API Documentation & Database Schema
+- [ER Diagram & Schema](https://github.com/hp332102-cloud/Inventory-and-Billing-System/blob/main/backend/README.md#7-er-diagram--database-schema) - Database Design Details
 
 ---
 
