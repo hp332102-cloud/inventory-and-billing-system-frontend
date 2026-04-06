@@ -89,48 +89,48 @@ const ProductEdit = () => {
   };
 
   return (
-    <div style={{ padding: "50px", fontFamily: "Arial, sans-serif" }}>
-      <h2 style={{ marginBottom: "20px" }}>Update Stock for Product ID: <span style={{color: '#666'}}>{id}</span></h2>
-      
-      <form onSubmit={handleUpdate} style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-        <input
-          type="number"
-          placeholder="Enter new stock"
-          value={newStock} // 3. Value bind karna zaroori hai
-          onChange={(e) => setNewStock(e.target.value)} // 4. Type karte hi state update hogi
-          style={{ 
-            padding: "12px", 
-            fontSize: "16px", 
-            borderRadius: "6px", 
-            border: "1px solid #ccc",
-            width: "250px"
-          }}
-        />
+    <div className="w-full max-w-2xl mx-auto p-4 sm:p-10 space-y-6">
+      <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-100">
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-800 mb-6">
+          Update Stock for Product ID: <span className="text-slate-400 font-mono text-sm sm:text-base">{id}</span>
+        </h2>
         
-        <button 
-          type="submit"
-          disabled={isUpdating} // Update hote waqt button disable ho jayega
-          style={{ 
-            padding: "12px 24px", 
-            fontSize: "16px", 
-            cursor: isUpdating ? "not-allowed" : "pointer", 
-            backgroundColor: "#007bff", 
-            color: "white", 
-            border: "none", 
-            borderRadius: "6px",
-            transition: '0.3s'
-          }}
-        >
-          {isUpdating ? "Updating..." : "Update & Back"}
-        </button>
-      </form>
+        <form onSubmit={handleUpdate} className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+          <div className="flex-1">
+            <label className="block text-xs font-bold text-slate-400 uppercase mb-1 ml-1">New Stock Quantity</label>
+            <input
+              type="number"
+              placeholder="Enter new stock"
+              value={newStock}
+              onChange={(e) => setNewStock(e.target.value)}
+              className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-blue-500 text-slate-800"
+              autoFocus
+            />
+          </div>
+          
+          <button 
+            type="submit"
+            disabled={isUpdating}
+            className={`sm:mt-5 px-8 py-3 rounded-xl font-bold text-white shadow-lg transition-all active:scale-95 ${
+              isUpdating ? "bg-slate-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 shadow-blue-200"
+            }`}
+          >
+            {isUpdating ? "Updating..." : "Update Stock"}
+          </button>
+        </form>
 
-      <button 
-        onClick={() => navigate("/dashboard")} 
-        style={{ marginTop: '20px', background: 'none', border: 'none', color: '#007bff', cursor: 'pointer' }}
-      >
-        ← Back to Dashboard
-      </button>
+        <div className="mt-8 border-t pt-6">
+          <button 
+            onClick={() => navigate("/dashboard")} 
+            className="flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Dashboard
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

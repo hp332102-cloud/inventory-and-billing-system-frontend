@@ -37,7 +37,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
         </button>
 
         {/* Title */}
-        <h2 className="text-xl md:text-[22px] font-bold text-slate-800 tracking-tight">
+        <h2 className="text-lg md:text-[22px] font-bold text-slate-800 tracking-tight line-clamp-1">
           {getPageTitle()}
         </h2>
       </div>
@@ -73,7 +73,7 @@ const Navbar = ({ setIsSidebarOpen }) => {
         {/* 4. Logout Button matching the image */}
         <button
           onClick={handleLogout}
-          className="ml-2 px-4 py-2 text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-red-600 hover:border-red-200 transition-all shadow-sm"
+          className="ml-2 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm font-semibold text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50 hover:text-red-600 hover:border-red-200 transition-all shadow-sm"
         >
           Logout
         </button>

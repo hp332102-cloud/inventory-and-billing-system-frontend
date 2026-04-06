@@ -260,58 +260,59 @@ const InvoiceList = ({ invoices }) => {
   }
 
   return (
+    <div className="overflow-x-auto w-full">
+      <table className="invoice-table min-w-[800px]">
 
-    <table className="invoice-table">
+        <thead>
 
-      <thead>
-
-        <tr>
-          <th>Invoice No</th>
-          <th>Customer</th>
-          <th>Taxable Amount</th>
-          <th>Discount</th>
-          <th>CGST</th>
-          <th>SGST</th>
-          <th>IGST</th>
-          <th>Total</th>
-          <th>Date</th>
-        </tr>
-
-      </thead>
-
-      <tbody>
-
-        {invoices.map((inv) => (
-
-          <tr key={inv._id}>
-
-            <td>{inv.invoiceNumber}</td>
-
-            <td>{inv.customerName}</td>
-
-            <td>INR {inv.subTotal?.toFixed(2)}</td>
-
-            <td>INR {((inv.totalDiscount || 0) + (inv.billDiscount || 0)).toFixed(2)}</td>
-
-            <td>INR {inv.cgst?.toFixed(2)}</td>
-
-            <td>INR {inv.sgst?.toFixed(2)}</td>
-
-            <td>INR {inv.igst?.toFixed(2)}</td>
-
-            <td>INR {inv.totalAmount?.toFixed(2)}</td>
-
-            <td>
-              {new Date(inv.createdAt).toLocaleDateString()}
-            </td>
-
+          <tr>
+            <th>Invoice No</th>
+            <th>Customer</th>
+            <th>Taxable Amount</th>
+            <th>Discount</th>
+            <th>CGST</th>
+            <th>SGST</th>
+            <th>IGST</th>
+            <th>Total</th>
+            <th>Date</th>
           </tr>
 
-        ))}
+        </thead>
 
-      </tbody>
+        <tbody>
 
-    </table>
+          {invoices.map((inv) => (
+
+            <tr key={inv._id}>
+
+              <td>{inv.invoiceNumber}</td>
+
+              <td>{inv.customerName}</td>
+
+              <td>INR {inv.subTotal?.toFixed(2)}</td>
+
+              <td>INR {((inv.totalDiscount || 0) + (inv.billDiscount || 0)).toFixed(2)}</td>
+
+              <td>INR {inv.cgst?.toFixed(2)}</td>
+
+              <td>INR {inv.sgst?.toFixed(2)}</td>
+
+              <td>INR {inv.igst?.toFixed(2)}</td>
+
+              <td>INR {inv.totalAmount?.toFixed(2)}</td>
+
+              <td>
+                {new Date(inv.createdAt).toLocaleDateString()}
+              </td>
+
+            </tr>
+
+          ))}
+
+        </tbody>
+
+      </table>
+    </div>
 
   );
 

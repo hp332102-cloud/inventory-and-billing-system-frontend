@@ -433,34 +433,33 @@ if (loading) return (
   return (
     <div className="w-full space-y-6">
       {/* 1. Header Section */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800 tracking-tight">Invoice History</h2>
-          <p className="text-slate-500 text-sm">View and manage your generated GST invoices</p>
+          <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Invoice History</h2>
+          <p className="text-slate-500 text-xs md:text-sm">View and manage your generated GST invoices</p>
         </div>
-        <div className="bg-blue-50 text-blue-600 px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-widest border border-blue-100">
+        <div className="bg-blue-50 text-blue-600 px-4 py-2 rounded-xl text-[10px] md:text-xs font-bold uppercase tracking-widest border border-blue-100 whitespace-nowrap">
           Total Invoices: {totalInvoices}
         </div>
       </div>
 
-      <div className="mb-4 relative">
+      <div className="mb-4 relative w-full sm:w-1/2 lg:w-1/3">
         <input
           type="text"
           value={searchTerm}
           placeholder="Search by Invoice #, Name or Email..."
-          className="w-full md:w-1/3 p-2 border rounded shadow-sm pr-8"
+          className="w-full p-2.5 border rounded-xl shadow-sm pr-10 outline-none focus:ring-2 focus:ring-blue-500 text-sm"
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         {searchLoading && (
-          <div className="absolute top-2.5 left-[calc(33%-28px)] md:left-auto" style={{right: 'calc(67% + 10px)' }}>
+          <div className="absolute top-3 right-3">
             <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
           </div>
         )}
-        {searchTerm && (
+        {!searchLoading && searchTerm && (
           <button
             onClick={() => { setSearchTerm(""); setDebouncedSearch(""); setPage(1); }}
-            className="absolute top-2.5 text-slate-400 hover:text-slate-700 text-sm font-bold"
-            style={{ left: 'calc(33% - 24px)' }}
+            className="absolute top-3 right-3 text-slate-400 hover:text-slate-700"
           >
             ✕
           </button>

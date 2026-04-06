@@ -89,44 +89,36 @@ const Dashboard = () => {
       )}
 
       {/* 2. Charts Section */}
-      <div className="charts-section" style={{ display: 'flex', gap: '20px', margin: '20px 0' }}>
-        <div style={{ flex: 1, backgroundColor: '#fff', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex-1 bg-white p-5 rounded-2xl shadow-sm border border-slate-100 min-h-[350px]">
            <SalesChart data={salesData} />
         </div>
-        <div style={{ flex: 1, backgroundColor: '#fff', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+        <div className="flex-1 bg-white p-5 rounded-2xl shadow-sm border border-slate-100 min-h-[350px]">
            <GSTChart data={gstData} />
         </div>
       </div>
 
       {/* 3. Tables Section (Recent Invoices + Low Stock Side-by-Side) */}
-      <div className="dashboard-grid-container"
-      style={{display: 'flex',gap: '24px',marginTop: '24px',
-      alignItems: 'stretch'//isse dono boxes ki height match hogi
-      }}>
+      <div className="flex flex-col lg:flex-row gap-6 items-stretch">
         
         {/* Recent Invoices - occupies more space (flex: 2) */}
-        <div className="dashboard-card-table"
-        style={{flex: 1,display: 'flex' ,flexDirection: 'column'}}>
+        <div className="dashboard-card-table flex-1 flex flex-col">
           <div className="card-header">
-            <h3>Recent Invoices</h3>
+            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">Recent Invoices</h3>
             {/*View All par click karne se Invoice List pagekhulega */}
             <button className="view-all-btn" onClick={() => navigate("/invoices")}>
               View All
             </button>
           </div>
-          <div className="card-body"
-          style={{flexGrow: 1}}>
+          <div className="card-body flex-grow">
             <RecentInvoices invoices={recentInvoices} />
           </div>
-
-          
         </div>
 
         {/* Low Stock Table - occupies less space (flex: 1) */}
-        <div className="dashboard-card-table"
-        style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
+        <div className="dashboard-card-table flex-1 flex flex-col">
           <div className="card-header">
-            <h3>
+            <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
               Low Stock Alert
             </h3>
             {/*Manage Stock par click karne se Products page khulega */}
@@ -134,11 +126,9 @@ const Dashboard = () => {
               Manage Stock
             </button>
           </div>
-          <div className="card-body"
-          style={{flexGrow: 1}}>
+          <div className="card-body flex-grow">
             <LowStockTable products={lowStock} onRestock={handleRestockClick} />
           </div>
-          
         </div>
 
       </div>

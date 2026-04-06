@@ -97,13 +97,13 @@ const loadReport = async () => {
   return (
     <div className="w-full space-y-6">
       {/* 1. Header Section */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-800 tracking-tight">Daily Sales Report</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-slate-800 tracking-tight">Daily Sales Report</h2>
           {/* <p className="text-sm text-slate-500">Analyze your daily performance and GST collection</p> */}
         </div>
         {searched && !loading && (
-           <div className="bg-blue-50 border border-blue-100 p-3 rounded-xl">
+           <div className="bg-blue-50 border border-blue-100 p-3 rounded-xl w-full sm:w-auto">
               <p className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Total Sales</p>
               <p className="text-xl font-black text-blue-600">₹{totalSales.toFixed(2)}</p>
            </div>

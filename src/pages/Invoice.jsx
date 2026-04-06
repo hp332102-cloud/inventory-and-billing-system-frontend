@@ -380,8 +380,9 @@ const addItem = () => {
         {/* Right Section: Item List & Bill */}
         <div className="lg:col-span-2 space-y-4">
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-            <table className="w-full text-left">
-              <thead className="bg-slate-50 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left min-w-[500px]">
+                <thead className="bg-slate-50 text-slate-500 text-[10px] font-bold uppercase tracking-widest">
                 <tr>
                   <th className="p-4">Item</th>
                   <th className="p-4">Qty</th>
@@ -415,15 +416,16 @@ const addItem = () => {
               </tbody>
             </table>
           </div>
+        </div>
 
           {/* Bill Discount Input Section */}
-          <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-4 flex items-center justify-between">
+          <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 mb-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
               <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Apply Bill Discount</h4>
               <p className="text-[10px] text-slate-500 italic mt-1">*Applicable on taxable value</p>
             </div>
             
-            <div className="flex border border-slate-200 rounded-xl overflow-hidden shadow-sm">
+            <div className="flex border border-slate-200 rounded-xl overflow-hidden shadow-sm w-full sm:w-auto">
               <select 
                 className="bg-slate-50 p-2 text-sm font-bold border-r outline-none text-slate-600 cursor-pointer"
                 value={discountType}
@@ -437,7 +439,7 @@ const addItem = () => {
               </select>
               <input 
                 type="number" 
-                className="w-24 p-2 outline-none text-center font-bold text-blue-600"
+                className="flex-1 sm:w-24 p-2 outline-none text-center font-bold text-blue-600"
                 placeholder="0"
                 value={billDiscount}
                 onChange={(e) => {
