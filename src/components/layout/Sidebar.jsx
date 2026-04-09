@@ -37,7 +37,7 @@ const Sidebar = ({ isOpen, setIsOpen }) => {
               <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
             </div>
             <h1 className="text-white text-[16px] font-bold tracking-widest uppercase">
-              PAAVTI
+              STOCKIFY
             </h1>
           </div>
         </div>
